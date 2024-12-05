@@ -5,6 +5,9 @@ import torch
 import logging
 import random
 from ssim_torch import ssim
+from tqdm import tqdm
+from natsort import natsorted
+
 
 def generate_masks(mask_path, batch_size):
     mask = sio.loadmat(mask_path + '/mask.mat')
@@ -31,28 +34,26 @@ def generate_shift_masks(mask_path, batch_size):
 def LoadTraining(path):
     imgs = []
     scene_list = os.listdir(path)
-    scene_list.sort()
+    scene_list = natsorted(scene_list)
     print('training sences:', len(scene_list))
-    for i in range(len(scene_list)):
-    # for i in range(5):
-        scene_path = path + scene_list[i]
-        scene_num = int(scene_list[i].split('.')[0][5:])
-        if scene_num<=205:
-            if 'mat' not in scene_path:
-                continue
-            img_dict = sio.loadmat(scene_path)
-            if "img_expand" in img_dict:
-                img = img_dict['img_expand'] / 65536.
-            elif "img" in img_dict:
-                img = img_dict['img'] / 65536.
-            img = img.astype(np.float32)
-            imgs.append(img)
-            print('Sence {} is loaded. {}'.format(i, scene_list[i]))
+    # for file in tqdm(scene_list):
+    # TODO [WHY]: 源代码只加载了前 205 个场景
+    for file in tqdm(scene_list[:10]):
+        scene_path = path + file
+        if 'mat' not in scene_path:
+            continue
+        img_dict = sio.loadmat(scene_path)
+        if "img_expand" in img_dict:
+            img = img_dict['img_expand'] / 65536.
+        elif "img" in img_dict:
+            img = img_dict['img'] / 65536.
+        img = img.astype(np.float32)
+        imgs.append(img)
     return imgs
 
 def LoadTest(path_test):
     scene_list = os.listdir(path_test)
-    scene_list.sort()
+    scene_list = natsorted(scene_list)
     test_data = np.zeros((len(scene_list), 256, 256, 28))
     for i in range(len(scene_list)):
         scene_path = path_test + scene_list[i]

@@ -9,6 +9,7 @@ from torch.autograd import Variable
 import datetime
 from option import opt
 import torch.nn.functional as F
+from tqdm import tqdm
 
 os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
 os.environ["CUDA_VISIBLE_DEVICES"] = opt.gpu_id
@@ -53,7 +54,7 @@ def train(epoch, logger):
     epoch_loss = 0
     begin = time.time()
     batch_num = int(np.floor(opt.epoch_sam_num / opt.batch_size))
-    for i in range(batch_num):
+    for i in tqdm(range(batch_num)):
         gt_batch = shuffle_crop(train_set, opt.batch_size)
         gt = Variable(gt_batch).cuda().float()
         input_meas = init_meas(gt, mask3d_batch_train, opt.input_setting)
