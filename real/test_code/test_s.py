@@ -9,8 +9,8 @@ from architecture import *
 
 
 parser = argparse.ArgumentParser(description="PyTorch HSIFUSION")
-parser.add_argument('--data_path', default='../../datasets/TSA_real_data/Measurements/', type=str,help='path of data')
-parser.add_argument('--mask_path', default='../../datasets/TSA_real_data/mask.mat', type=str,help='path of mask')
+parser.add_argument('--data_path', default='../../../Datasets/TSA_real_data/Measurements/', type=str,help='path of data')
+parser.add_argument('--mask_path', default='../../../Datasets/TSA_real_data/mask.mat', type=str,help='path of mask')
 parser.add_argument("--size", default=660, type=int, help='the size of trainset image')
 parser.add_argument("--trainset_num", default=2000, type=int, help='total number of trainset')
 parser.add_argument("--testset_num", default=5, type=int, help='total number of testset')

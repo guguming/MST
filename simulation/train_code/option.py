@@ -9,7 +9,7 @@ parser.add_argument('--template', default='mst',
 parser.add_argument("--gpu_id", type=str, default='0')
 
 # Data specifications
-parser.add_argument('--data_root', type=str, default='../../datasets/', help='dataset directory')
+parser.add_argument('--data_root', type=str, default='../../../Datasets/', help='dataset directory')
 
 # Saving specifications
 parser.add_argument('--outf', type=str, default='./exp/mst_s/', help='saving_path')
